@@ -60,20 +60,24 @@ public class Game
     private void buildDisplay() {
         int x = 0;
         int y = 0;
+        boolean show = false;
         for (Card card : cards) {
-            x += 10;
+            card.setPosition(x, y);
+            if (show) {
+                card.turnFaceUp();
+            }
+            card.makeVisible();
+            
+            x += 30;
             if (x > canvas.getWidth()) {
                 x = 0;
                 y += 30;
             }
-            card.setPosition(x, y);
-            card.makeVisible();
-            System.out.println(card.getRank() + " of " + card.getSuit());
+            show = !show;
         }
 
-        new Image("cards/2s.png", 10, 10, -1, 175, true);
-    
-        canvas.redraw();}
+        // canvas.redraw();
+    }
 
     /**
      * Handle the user clicking in the window
