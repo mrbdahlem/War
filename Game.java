@@ -1,0 +1,130 @@
+/**
+ * 
+ *
+ * @author 
+ * @version 
+ */
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.event.MouseInputAdapter;
+
+
+public class Game
+{
+    private final Canvas canvas;
+            
+    /**
+     * Create a window that will display and allow the user to play the game
+     */
+    public Game() {
+        // Prepare the canvas
+        canvas = Canvas.getCanvas();
+        canvas.clear();
+        canvas.setTitle("MyGame");
+        
+        buildDisplay();        
+               
+        // Add a mouse handler to deal with user input
+        canvas.addMouseHandler(new MouseInputAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                onClick(e.getButton(), e.getX(), e.getY());
+            }
+            
+            public void mouseMoved(MouseEvent e) {
+                onMove(-1, e.getX(), e.getY());
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                onMove(e.getButton(), e.getX(), e.getY());
+            }
+        });
+    }
+    
+    /**
+     * Reset the Game and display to the beginning state
+     */
+    public void reset() {
+        canvas.clear();
+        
+        buildDisplay();
+    }
+    
+    /**
+     * Setup the display for the game
+     */
+    private void buildDisplay() {
+        Image card = new Image("cards/as.png", 100, 100, -1, 175, true);
+    }
+
+    /**
+     * Handle the user clicking in the window
+     * @param button the button that was pressed
+     * @param x the x coordinate of the mouse position
+     * @param y the y coordinate of the mouse position
+     */
+    private void onClick(int button, int x, int y) {
+        System.out.println("Mouse clicked at " + x + ", " + y + " with button " + button);
+    }
+
+    /**
+     * Handle the user moving the mouse in the window
+     * @param button the button that was pressed, or -1 if no button was pressed
+     * @param x the x coordinate of the mouse position
+     * @param y the y coordinate of the mouse position
+     */
+    private void onMove(int button, int x, int y) {
+        if (button == -1) {
+            System.out.println("Mouse moved to " + x + ", " + y);
+        }
+        else {
+            System.out.println("Mouse dragged to " + x + ", " + y + " with button " + button);
+        }
+    }
+    
+    /**
+     * Quickly flash the window background red
+     */
+    public void flashRed() {
+        // The user messed up, show them they made a mistake
+        canvas.setBackgroundColor("red");
+        canvas.redraw();
+        wait(500);
+        
+        canvas.setBackgroundColor("white");
+        canvas.redraw();
+    }
+    
+    /**
+     * Wait for a specified number of milliseconds before finishing. This
+     * provides an easy way to specify a small delay which can be used when
+     * producing animations.
+     *
+     * @param milliseconds the number
+     */
+    public static void wait(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            // ignoring exceptions at the moment
+        }
+    }
+
+    public List<Card> loadCards() {
+        List<Card> cards = new ArrayList<Card>();
+        for (String suit : new String[] { "hearts", "diamonds", "clubs", "spades" }) {
+            for (int i = 1; i <= 13; i++) {
+                cards.add(new Card(i, suit));
+            }
+        }
+        return cards;
+    }
+
+    /**
+     * Run the game
+     */
+    public static void main(String[] args) {
+        Game game = new Game();
+    }
+}
