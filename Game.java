@@ -58,10 +58,22 @@ public class Game
      * Setup the display for the game
      */
     private void buildDisplay() {
+        int x = 0;
+        int y = 0;
         for (Card card : cards) {
+            x += 10;
+            if (x > canvas.getWidth()) {
+                x = 0;
+                y += 30;
+            }
+            card.setPosition(x, y);
             card.makeVisible();
+            System.out.println(card.getRank() + " of " + card.getSuit());
         }
-    }
+
+        new Image("cards/2s.png", 10, 10, -1, 175, true);
+    
+        canvas.redraw();}
 
     /**
      * Handle the user clicking in the window
@@ -118,7 +130,7 @@ public class Game
 
     private List<Card> loadCards() {
         List<Card> cards = new ArrayList<Card>();
-        for (String suit : new String[] { "hearts", "diamonds", "clubs", "spades" }) {
+        for (String suit : new String[] { "Hearts", "Diamonds", "Clubs", "Spades" }) {
             for (int i = 1; i <= 13; i++) {
                 cards.add(new Card(i, suit));
             }

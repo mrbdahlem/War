@@ -33,6 +33,7 @@ public class Card {
         this.suit = suit;
 
         filename += this.suit.substring(0, 1).toLowerCase() + ".png";
+        System.out.println(filename);
         this.image = new Image("cards/" + filename, -1, 175);
         this.backImage = new Image("cards/back.png", -1, 175);
 
@@ -47,20 +48,19 @@ public class Card {
             isVisible = true;
             if (isFaceUp) {
                 image.makeVisible();
+                backImage.makeInvisible();
             } else {
                 backImage.makeVisible();
+                image.makeInvisible();
             }
         }
     }
 
     public void makeInvisible() {
         if (isVisible) {
-            if (isFaceUp) {
-                image.makeInvisible();
-            } else {
-                backImage.makeInvisible();
-            }
             isVisible = false;
+            image.makeInvisible();
+            backImage.makeInvisible();            
         }
     }
 
@@ -118,7 +118,4 @@ public class Card {
     public String getSuit() {
         return suit;
     }
-
-
-
 }
