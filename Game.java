@@ -14,11 +14,14 @@ import javax.swing.event.MouseInputAdapter;
 public class Game
 {
     private final Canvas canvas;
+    private final List<Card> cards;
             
     /**
      * Create a window that will display and allow the user to play the game
      */
     public Game() {
+        cards = loadCards();
+
         // Prepare the canvas
         canvas = Canvas.getCanvas();
         canvas.clear();
@@ -55,7 +58,9 @@ public class Game
      * Setup the display for the game
      */
     private void buildDisplay() {
-        Image card = new Image("cards/as.png", 100, 100, -1, 175, true);
+        for (Card card : cards) {
+            card.makeVisible();
+        }
     }
 
     /**
@@ -111,7 +116,7 @@ public class Game
         }
     }
 
-    public List<Card> loadCards() {
+    private List<Card> loadCards() {
         List<Card> cards = new ArrayList<Card>();
         for (String suit : new String[] { "hearts", "diamonds", "clubs", "spades" }) {
             for (int i = 1; i <= 13; i++) {

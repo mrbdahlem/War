@@ -8,26 +8,33 @@ public class Card {
     private boolean isVisible;
     private boolean isFaceUp;
 
-    private static Image backImage = new Image("cards/back.png", -1, 175);
+    private Image backImage;
 
+    String filename;
 
     public Card(int rank, String suit) {
         if (rank > 1 && rank < 11) {
             this.rank = Integer.toString(rank);
+            filename = this.rank;
         } else if (rank == 1) {
-            this.rank = "A";
+            this.rank = "Ace";
+            filename = "a";
         } else if (rank == 11) {
-            this.rank = "J";
+            this.rank = "Jack";
+            filename = "j";
         } else if (rank == 12) {
-            this.rank = "Q";
+            this.rank = "Queen";
+            filename = "q";
         } else if (rank == 13) {
-            this.rank = "K";
+            this.rank = "King";
+            filename = "k";
         }
 
         this.suit = suit;
 
-        String filename = this.rank + this.suit + ".png";
-        this.image = new Image(("cards/" + filename).toLowerCase(), -1, 175);
+        filename += this.suit.substring(0, 1).toLowerCase() + ".png";
+        this.image = new Image("cards/" + filename, -1, 175);
+        this.backImage = new Image("cards/back.png", -1, 175);
 
         this.isFaceUp = false;
         this.isVisible = false;
@@ -56,5 +63,62 @@ public class Card {
             isVisible = false;
         }
     }
+
+    public void turnFaceUp() {
+        this.isFaceUp = true;
+    }
+
+    public void turnFaceDown() {
+        this.isFaceUp = false;
+    }
+
+    public void setFaceUp(boolean faceUp) {
+        this.isFaceUp = faceUp;
+    }
+
+    public void setX(int x) {
+        this.xPosition = x;
+        image.setX(x);
+        backImage.setX(x);
+    }
+
+    public void setY(int y) {
+        this.yPosition = y;
+        image.setY(y);
+        backImage.setY(y);
+    }
+
+    public void setPosition(int x, int y) {
+        this.xPosition = x;
+        this.yPosition = y;
+        image.setPosition(x, y);
+        backImage.setPosition(x, y);
+    }
+
+    public int getX() {
+        return xPosition;
+    }
+
+    public int getY() {
+        return yPosition;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public boolean isFaceUp() {
+        return isFaceUp;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public String getSuit() {
+        return suit;
+    }
+
+
 
 }
