@@ -59,7 +59,7 @@ public class Game
      */
     private void buildDisplay() {
         int x = 0;
-        int y = 0;
+        int y = 3;
         boolean show = false;
         for (Card card : cards) {
             card.setPosition(x, y);
@@ -68,10 +68,10 @@ public class Game
             }
             card.makeVisible();
             
-            x += card.getWidth() + 10;
-            if (x > canvas.getWidth() - card.getWidth()) {
+            x += card.getWidth() / 2;
+            if (x > canvas.getWidth() - (card.getWidth() / 2)) {
                 x = 0;
-                y += card.getHeight() + 10;
+                y += card.getHeight()/2;
             }
             show = !show;
         }

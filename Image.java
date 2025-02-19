@@ -1,3 +1,6 @@
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
 import javax.swing.ImageIcon;
 
 public class Image {
@@ -192,6 +195,7 @@ public class Image {
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
             canvas.add(this,(g) -> {
+                    ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                     g.drawImage(image.getImage(), xPosition, yPosition, xSize, ySize, null);
             });
         }
