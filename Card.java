@@ -103,6 +103,14 @@ public class Card {
         return yPosition;
     }
 
+    public int getWidth() {
+        return image.getWidth();
+    }
+
+    public int getHeight() {
+        return image.getHeight();
+    }
+    
     public boolean isVisible() {
         return isVisible;
     }

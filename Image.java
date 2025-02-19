@@ -1,12 +1,3 @@
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageFilter;
-import java.awt.image.ImageProducer;
-import java.awt.image.AreaAveragingScaleFilter;
-import java.awt.Toolkit;
-
 import javax.swing.ImageIcon;
 
 public class Image {
@@ -15,18 +6,16 @@ public class Image {
     private int yPosition;
     private int xSize;
     private int ySize;
-    private java.awt.Image scaledImage;
-    private ImageIcon baseImage;
+    private ImageIcon image;
     
     /**
      * Create an image with a default position and size.
      * @param filename the name of the image file to load
      */
     public Image(String filename) {
-        baseImage = new javax.swing.ImageIcon(filename);
-        scaledImage = baseImage.getImage();
-        xSize = baseImage.getIconWidth();
-        ySize = baseImage.getIconHeight();
+        image = new javax.swing.ImageIcon(filename);
+        xSize = image.getIconWidth();
+        ySize = image.getIconHeight();
 
         xPosition = 0;
         yPosition = 0;
@@ -41,7 +30,7 @@ public class Image {
      * @param height the height of the image
      */
     public Image(String filename, int width, int height) {
-        baseImage = new javax.swing.ImageIcon(filename);
+        image = new javax.swing.ImageIcon(filename);
         scaleImage(width, height);
 
         isVisible = false;
@@ -57,10 +46,9 @@ public class Image {
      * @param visible whether the image should be visible
      */
     public Image(String filename, int x, int y, boolean visible) {
-        baseImage = new javax.swing.ImageIcon(filename);
-        scaledImage = baseImage.getImage();        
-        xSize = baseImage.getIconWidth();
-        ySize = baseImage.getIconHeight();
+        image = new javax.swing.ImageIcon(filename);   
+        xSize = image.getIconWidth();
+        ySize = image.getIconHeight();
 
         xPosition = x;
         yPosition = y;
@@ -81,7 +69,7 @@ public class Image {
      * @param visible whether the image should be visible
      */
     public Image(String filename, int x, int y, int width, int height, boolean visible) {
-        baseImage = new javax.swing.ImageIcon(filename);
+        image = new javax.swing.ImageIcon(filename);
         scaleImage(width, height);
         
         xPosition = x;
@@ -204,7 +192,7 @@ public class Image {
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
             canvas.add(this,(g) -> {
-                    g.drawImage(scaledImage, xPosition, yPosition, xSize, ySize, null);
+                    g.drawImage(image.getImage(), xPosition, yPosition, xSize, ySize, null);
             });
         }
     }
@@ -226,30 +214,18 @@ public class Image {
      * @param width the new width
      * @param height the new height
      */
-    // private void scaleImage(int width, int height) {
-    //     if (width < 0 && height < 0) {
-    //         throw new IllegalArgumentException("Width and height cannot both be less than 0");
-    //     }
-    //     else if (width < 0) {
-    //         width = (int) (height * baseImage.getIconWidth() / (double)baseImage.getIconHeight());
-    //     }
-    //     else if (height < 0) {
-    //         height = (int) (width * baseImage.getIconHeight() / (double)baseImage.getIconWidth());
-    //     }
+    private final void scaleImage(int width, int height) {
+        if (width < 0 && height < 0) {
+            throw new IllegalArgumentException("Width and height cannot both be less than 0");
+        }
+        else if (width < 0) {
+            width = (int) (height * image.getIconWidth() / (double)image.getIconHeight());
+        }
+        else if (height < 0) {
+            height = (int) (width * image.getIconHeight() / (double)image.getIconWidth());
+        }
 
-    //     BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-    //     Graphics2D g = scaled.createGraphics();
-    //     g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    //     g.drawImage(baseImage.getImage(), 0, 0, width, height, null);
-    //     g.dispose();
-    //     scaledImage = scaled;
-
-    //     xSize = width;
-    //     ySize = height;
-    // }
-    private void scaleImage(int width, int height) {
-        ImageFilter filter = new AreaAveragingScaleFilter(width, height);
-        FilteredImageSource source = new FilteredImageSource(baseImage.getImage().getSource(), filter);
-        scaledImage = Toolkit.getDefaultToolkit().createImage(source);
+        xSize = width;
+        ySize = height;
     }
 }

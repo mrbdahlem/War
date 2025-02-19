@@ -68,10 +68,10 @@ public class Game
             }
             card.makeVisible();
             
-            x += 30;
-            if (x > canvas.getWidth()) {
+            x += card.getWidth() + 10;
+            if (x > canvas.getWidth() - card.getWidth()) {
                 x = 0;
-                y += 30;
+                y += card.getHeight() + 10;
             }
             show = !show;
         }
