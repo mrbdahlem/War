@@ -1,6 +1,11 @@
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 
@@ -221,25 +226,30 @@ public class Image {
      * @param width the new width
      * @param height the new height
      */
+    // private void scaleImage(int width, int height) {
+    //     if (width < 0 && height < 0) {
+    //         throw new IllegalArgumentException("Width and height cannot both be less than 0");
+    //     }
+    //     else if (width < 0) {
+    //         width = (int) (height * baseImage.getIconWidth() / (double)baseImage.getIconHeight());
+    //     }
+    //     else if (height < 0) {
+    //         height = (int) (width * baseImage.getIconHeight() / (double)baseImage.getIconWidth());
+    //     }
+
+    //     BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+    //     Graphics2D g = scaled.createGraphics();
+    //     g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    //     g.drawImage(baseImage.getImage(), 0, 0, width, height, null);
+    //     g.dispose();
+    //     scaledImage = scaled;
+
+    //     xSize = width;
+    //     ySize = height;
+    // }
     private void scaleImage(int width, int height) {
-        if (width < 0 && height < 0) {
-            throw new IllegalArgumentException("Width and height cannot both be less than 0");
-        }
-        else if (width < 0) {
-            width = (int) (height * baseImage.getIconWidth() / (double)baseImage.getIconHeight());
-        }
-        else if (height < 0) {
-            height = (int) (width * baseImage.getIconHeight() / (double)baseImage.getIconWidth());
-        }
-
-        BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = scaled.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(baseImage.getImage(), 0, 0, width, height, null);
-        g.dispose();
-        scaledImage = scaled;
-
-        xSize = width;
-        ySize = height;
+        ImageFilter filter = new AreaAveragingScaleFilter(width, height);
+        FilteredImageSource source = new FilteredImageSource(baseImage.getImage().getSource(), filter);
+        scaledImage = Toolkit.getDefaultToolkit().createImage(source);
     }
 }
