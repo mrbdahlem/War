@@ -33,7 +33,6 @@ public class Card {
         this.suit = suit;
 
         filename += this.suit.substring(0, 1).toLowerCase() + ".png";
-        System.out.println(filename);
         this.image = new Image("cards/" + filename, -1, 175);
         this.backImage = new Image("cards/back.png", -1, 175);
 

@@ -75,8 +75,6 @@ public class Game
             }
             show = !show;
         }
-
-        // canvas.redraw();
     }
 
     /**
@@ -87,6 +85,7 @@ public class Game
      */
     private void onClick(int button, int x, int y) {
         System.out.println("Mouse clicked at " + x + ", " + y + " with button " + button);
+        
     }
 
     /**

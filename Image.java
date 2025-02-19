@@ -1,7 +1,10 @@
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 public class Image {
     private boolean isVisible;
@@ -9,16 +12,21 @@ public class Image {
     private int yPosition;
     private int xSize;
     private int ySize;
-    private ImageIcon image;
+    private BufferedImage image;
     
     /**
      * Create an image with a default position and size.
      * @param filename the name of the image file to load
      */
     public Image(String filename) {
-        image = new javax.swing.ImageIcon(filename);
-        xSize = image.getIconWidth();
-        ySize = image.getIconHeight();
+        try {
+            image = ImageIO.read(new File(filename));
+            xSize = image.getWidth();
+            ySize = image.getHeight();
+        }
+        catch (IOException e) {
+            System.err.println("Could not load " + filename);
+        }
 
         xPosition = 0;
         yPosition = 0;
@@ -33,7 +41,7 @@ public class Image {
      * @param height the height of the image
      */
     public Image(String filename, int width, int height) {
-        image = new javax.swing.ImageIcon(filename);
+        this(filename);
         scaleImage(width, height);
 
         isVisible = false;
@@ -49,9 +57,7 @@ public class Image {
      * @param visible whether the image should be visible
      */
     public Image(String filename, int x, int y, boolean visible) {
-        image = new javax.swing.ImageIcon(filename);   
-        xSize = image.getIconWidth();
-        ySize = image.getIconHeight();
+        this(filename);
 
         xPosition = x;
         yPosition = y;
@@ -72,7 +78,7 @@ public class Image {
      * @param visible whether the image should be visible
      */
     public Image(String filename, int x, int y, int width, int height, boolean visible) {
-        image = new javax.swing.ImageIcon(filename);
+        this(filename);
         scaleImage(width, height);
         
         xPosition = x;
@@ -196,7 +202,7 @@ public class Image {
             Canvas canvas = Canvas.getCanvas();
             canvas.add(this,(g) -> {
                     ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                    g.drawImage(image.getImage(), xPosition, yPosition, xSize, ySize, null);
+                    g.drawImage(image, xPosition, yPosition, xSize, ySize, null);
             });
         }
     }
@@ -223,10 +229,10 @@ public class Image {
             throw new IllegalArgumentException("Width and height cannot both be less than 0");
         }
         else if (width < 0) {
-            width = (int) (height * image.getIconWidth() / (double)image.getIconHeight());
+            width = (int) (height * image.getWidth() / (double)image.getHeight());
         }
         else if (height < 0) {
-            height = (int) (width * image.getIconHeight() / (double)image.getIconWidth());
+            height = (int) (width * image.getHeight() / (double)image.getWidth());
         }
 
         xSize = width;
