@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class to represent a playing card
+ * A class to represent a playing card that can be displayed on the canvas
  */
 public class Card {
     private int xPosition;

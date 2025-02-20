@@ -1,5 +1,5 @@
 /**
- * Show text on a canvas
+ * A text object that can be drawn on the canvas.
  *
  * @author Brian Dahlem
  * @version 2019-1-18

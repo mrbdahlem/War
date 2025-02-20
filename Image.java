@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * An image that can be moved, resized, and that draws itself on a canvas.
+ */
 public class Image {
     private boolean isVisible;
     private int xPosition;
