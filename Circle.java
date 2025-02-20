@@ -189,6 +189,20 @@ public class Circle
     }
 
     /**
+     * Determine if a point is inside the circle
+     * @param x the x-coordinate of the point
+     * @param y the y-coordinate of the point
+     * @return true if the point is inside the circle
+     */
+    public boolean contains(int x, int y) {
+        int xCenter = xPosition + diameter / 2;
+        int yCenter = yPosition + diameter / 2;
+        int xDiff = x - xCenter;
+        int yDiff = y - yCenter;
+        return xDiff * xDiff + yDiff * yDiff <= diameter * diameter / 4;
+    }
+
+    /**
      * Add the circle to the screen.
      */
     private void add()

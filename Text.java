@@ -193,7 +193,7 @@ public class Text
     /**
      * Determine if a point is inside of the bounds of this text
      */
-    public boolean containsPoint(int x, int y) {        
+    public boolean contains(int x, int y) {        
         return bounds.contains(x - xPosition, y - yPosition);
     }
     

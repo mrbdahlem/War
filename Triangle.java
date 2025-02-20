@@ -219,6 +219,42 @@ public class Triangle
     }
 
     /**
+     * Determine if a point is inside the triangle
+     */
+    public boolean contains(int x, int y)
+    {
+        int[] xpoints = {xPosition, 
+                         xPosition + (width/2),
+                         xPosition - (width/2)};
+        int[] ypoints = {yPosition,
+                         yPosition + height,
+                         yPosition + height};
+        
+        /* Calculate area of triangle ABC */
+        double A = area (xpoints[0], ypoints[0], xpoints[1], ypoints[1], xpoints[2], ypoints[2]);
+      
+        /* Calculate area of triangle PBC */ 
+        double A1 = area (x, y, xpoints[1], ypoints[1], xpoints[2], ypoints[2]);
+      
+        /* Calculate area of triangle PAC */ 
+        double A2 = area (xpoints[0], ypoints[0], x, y, xpoints[2], ypoints[2]);
+      
+        /* Calculate area of triangle PAB */  
+        double A3 = area (xpoints[0], ypoints[0], xpoints[1], ypoints[1], x, y);
+        
+        /* Check if sum of A1, A2 and A3 is same as A */
+        return Math.abs(A - (A1 + A2 + A3)) < 0.00001;
+    }
+
+    /* A utility function to calculate area of triangle 
+       formed by (x1, y1) (x2, y2) and (x3, y3) */
+    static double area(int x1, int y1, int x2, int y2, int x3, int y3)
+    {
+        return Math.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2.0);
+    }    
+
+
+    /**
      * Draw a triangle with current specifications on the screen.
      */
     private void add()

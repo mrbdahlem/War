@@ -228,6 +228,16 @@ public class Rect
     }
 
     /**
+     * Determine if a point is inside the rectangle
+     * @param x the x-coordinate of the point
+     * @param y the y-coordinate of the point
+     * @return true if the point is inside the rectangle
+     */
+    public boolean contains(int x, int y) {
+        return x >= xPosition && x <= xPosition + xSize && y >= yPosition && y <= yPosition + ySize;
+    }
+
+    /**
      * Draw a rectangle with current specifications on screen.
      */
     private void add()
