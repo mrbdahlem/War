@@ -5,7 +5,6 @@
  * @version 
  */
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.MouseInputAdapter;
@@ -20,7 +19,7 @@ public class Game
      * Create a window that will display and allow the user to play the game
      */
     public Game() {
-        cards = loadCards();
+        cards = Card.loadCards();
 
         // Prepare the canvas
         canvas = Canvas.getCanvas();
@@ -129,16 +128,6 @@ public class Game
         } catch (InterruptedException e) {
             // ignoring exceptions at the moment
         }
-    }
-
-    private List<Card> loadCards() {
-        List<Card> cards = new ArrayList<Card>();
-        for (String suit : new String[] { "Hearts", "Diamonds", "Clubs", "Spades" }) {
-            for (int i = 1; i <= 13; i++) {
-                cards.add(new Card(i, suit));
-            }
-        }
-        return cards;
     }
 
     /**

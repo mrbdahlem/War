@@ -194,6 +194,14 @@ public class Image {
     }
 
     /**
+     * Determine if the image is visible. Returns true if the image is visible, false otherwise.
+     * @return true if the image is visible, false otherwise
+     */
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    /**
      * Add the Image to the screen.
      */
     private void add()
@@ -237,5 +245,16 @@ public class Image {
 
         xSize = width;
         ySize = height;
+    }
+
+    /**
+     * Determine if a point is inside the image.
+     * @param x the x coordinate of the point
+     * @param y the y coordinate of the point
+     * @return true if the point is inside the image, false otherwise
+     */
+    public boolean contains(int x, int y) {
+        return x >= xPosition && x <= xPosition + xSize &&
+               y >= yPosition && y <= yPosition + ySize;
     }
 }
