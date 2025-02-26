@@ -4,6 +4,7 @@
  * @author 
  * @version 
  */
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +26,6 @@ public class Game
     private Text computer;
     private Text playerWins;
     private Text cpuWins;
-    private Text playerWinsWar;
-    private Text cpuWinsWar;
     private boolean done;
 
     private final int PLAYER_X;
@@ -43,6 +42,7 @@ public class Game
 
         // Prepare the canvas
         canvas = Canvas.getCanvas();
+        canvas.setBackgroundColor("#35654D");
         canvas.clear();
         canvas.setTitle("War - Card Game");   
                 
@@ -73,19 +73,21 @@ public class Game
 
     private void buildDisplay() {
         int width = canvas.getWidth();
-        instructions = new Text("Click to play", 300, 20, 20,
-            "black", false);
+        instructions = new Text("Click to play", 300, 30, 30,
+            "white", false);
         instructions.setX((width - instructions.getWidth())/2);
         
         war = new Text("WAR!", 300, 80, 50, "red", false);
         war.setX((width - war.getWidth()) / 2);
 
-        player = new Text("player", PLAYER_X, 153, 15, "black", false);
-        computer = new Text("computer", CPU_X, 153, 15, "black", false);
-        playerWins = new Text("wins", PLAYER_X + 50, 190, 20, "green", false);
-        cpuWins = new Text("wins", CPU_X + 50, 190, 20, "green", false);
-        playerWinsWar = new Text("wins", PLAYER_X + 50, 393, 20, "green", false);
-        cpuWinsWar = new Text("wins", CPU_X + 50, 393, 20, "green", false);
+        int cardWidth = deck.get(0).getWidth();
+
+        player = new Text("player", PLAYER_X, 193, 25, "white", false);
+        computer = new Text("computer", CPU_X, 193, 25, "white", false);
+        playerWins = new Text("wins", PLAYER_X + 50, 393, 20, "white", false);
+        playerWins.setX(PLAYER_X + (cardWidth - playerWins.getWidth()) / 2);
+        cpuWins = new Text("wins", CPU_X + 50, 393, 20, "white", false);
+        cpuWins.setX(CPU_X + (cardWidth - cpuWins.getWidth()) / 2);
     }
 
     // Manually shuffle the deck
@@ -102,8 +104,14 @@ public class Game
      * Reset the Game and display to the beginning state
      */
     public void reset() {
+        done = false;
+        
         canvas.clear();
         
+        instructions.makeVisible();
+        player.makeVisible();
+        computer.makeVisible();
+
         shuffleDeck(deck); // Shuffle the deck manually
 
         // Split the deck into two halves
@@ -115,10 +123,6 @@ public class Game
         lineUpCards(playerDeck, 10);
         lineUpCards(cpuDeck, canvas.getWidth() - deck.get(0).getWidth() - 10);
         
-        instructions.makeVisible();
-        player.makeVisible();
-        computer.makeVisible();
-
         canvas.pause(false);
         canvas.redraw();
     }
@@ -154,8 +158,6 @@ public class Game
         war.makeInvisible();
         playerWins.makeInvisible();
         cpuWins.makeInvisible();
-        playerWinsWar.makeInvisible();
-        cpuWinsWar.makeInvisible();
 
         resetDecks();
 
@@ -243,10 +245,10 @@ public class Game
     
             if (playerValue > cpuValue) {
                 playerDeck.addAll(pot); 
-                playerWinsWar.makeVisible();              
+                playerWins.makeVisible();              
             } else if (cpuValue > playerValue) {
                 cpuDeck.addAll(pot);
-                cpuWinsWar.makeVisible();
+                cpuWins.makeVisible();
             } else {
                 handleWar(playerWarCard, cpuWarCard, pot); // Recursive war
             }
@@ -254,6 +256,8 @@ public class Game
     }
         
     private void displayWinner() {
+        done = true;
+
         // TODO: Make this graphical
         if (playerDeck.isEmpty()) {
             System.out.println("CPU Wins!");
@@ -291,12 +295,15 @@ public class Game
      * Quickly flash the window background red
      */
     public void flashRed() {
-        // The user messed up, show them they made a mistake
+        Color bgcolor = canvas.getBackgroundColor();
+
+        // War has begun
         canvas.setBackgroundColor("red");
         canvas.redraw();
         wait(500);
+
         
-        canvas.setBackgroundColor("white");
+        canvas.setBackgroundColor(bgcolor);
         canvas.redraw();
     }
     

@@ -291,6 +291,10 @@ public class Canvas {
         setBackgroundColor(getColor(bgColor));
     }
 
+    public Color getBackgroundColor() {
+        return this.backgroundColor;
+    }
+
     /**
      * Add a handler to deal with mouse clicks on the canvas
      */
