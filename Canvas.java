@@ -232,7 +232,8 @@ public class Canvas {
     public void add(Object referenceObject, DrawShape shapeFunction) {
         synchronized (shapes) {
             if (shapes.containsKey(referenceObject)) {
-                throw new IllegalArgumentException("Shape already added to canvas");
+                shapes.remove(referenceObject);
+                // throw new IllegalArgumentException("Shape already added to canvas");
             }
 
             shapes.put(referenceObject, shapeFunction);
